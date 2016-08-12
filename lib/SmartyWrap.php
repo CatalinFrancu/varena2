@@ -71,6 +71,7 @@ class SmartyWrap {
           self::$cssFiles[5] = 'select2-boostrap.css';
           break;
         case 'main':               self::$cssFiles[6] = 'main.css'; break;
+        case 'jcrop':              self::$cssFiles[7] = 'jquery.Jcrop.min.css'; break;
         default:
           FlashMessage::add("Cannot load CSS file {$id}");
           Http::redirect(Util::$wwwRoot);
@@ -90,11 +91,12 @@ class SmartyWrap {
           self::$jsFiles[5] = 'bootstrap-datetimepicker.min.js';
           break;
         case 'select2':          self::$jsFiles[6] = 'select2.min.js'; break;
-	    case 'cookies':
-	      self::$jsFiles[6] = 'jquery.cookie.js';
-	      self::$jsFiles[7] = 'languageCookie.js';
-	      break;   
-	    default:
+	      case 'cookies':
+	        self::$jsFiles[7] = 'jquery.cookie.js';
+	        self::$jsFiles[8] = 'languageCookie.js';
+	        break;
+        case 'jcrop': self::$jsFiles[9] = 'jquery.Jcrop.min.js'; break;  
+	      default:
           FlashMessage::add("Cannot load JS script {$id}");
           Http::redirect(Util::$wwRoot);
       }

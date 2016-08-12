@@ -1,10 +1,5 @@
 <?php 
 
-/**
- * Displays or edits the user's account information. Can be invoked in two situations:
- * - when a logged in user clicks on their "my account" link;
- * - when a user logs in using an OpenID not seen before, in which case they must choose a username
- **/
 
 require_once '../../lib/Util.php';
 

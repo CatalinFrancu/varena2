@@ -43,7 +43,7 @@ class User extends BaseObject {
       $errors['username'][] = _('This username is taken.');
     }
 
-    if ($this->name && !preg_match("/^[-. \p{L}]{3,50}$/u", $this->name)) {
+    if (strlen($this->name)<3 || strlen($this->name)>50 || !preg_match("/^[-. \p{L}]{3,50}$/u", $this->name)) {
       $errors['name'][] = _("Your name must be between 3 and 50 characters long and consist of letters, spaces, '-' and '.'.");
     }
 

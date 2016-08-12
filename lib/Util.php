@@ -120,6 +120,10 @@ class Util {
     @socket_connect($sock, $ips[$index], $port);
     socket_close($sock);
   }
+
+  static function getUploadedFile($name){
+    return array_key_exists($name, $_FILES) ? $_FILES[$name] : null;
+  }
 }
 
 ?>

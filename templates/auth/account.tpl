@@ -1,46 +1,84 @@
-<h3>{"my account"|_}</h3>
-
-<form method="post">
-  <table class="form">
-    <tr>
-      <td><label for="username">{"username"|_}:</label></td>
-      <td>
-        {if $firstLogin}
-          <input type="text" id="username" name="username" value="{$editUser->username}" maxlength="20" placeholder="{"choose a username"|_}" autofocus>
-          <div class="fieldDesc">{"required; 3-20 characters including letters, digits, '-', '.' and '_'"|_}</div>
-        {else}
-          {$editUser->username}
-        {/if}
-      </td>
-    </tr>
-    <tr>
-      <td><label for="name">{"name"|_}:</label></td>
-      <td>
-        <input type="text" id="name" name="name" value="{$editUser->name}" maxlength="50" placeholder="{"enter your full name"|_}">
-        <div class="fieldDesc">{"optional; 3-50 characters"|_}</div>
-      </td>
-    </tr>
-    <tr>
-      <td><label for="email">{"email"|_}:</label></td>
-      <td>
-        <input type="text" id="email" name="email" value="{$editUser->email}" maxlength="50" placeholder="{"enter your email address"|_}">
-        <div class="fieldDesc">{"optional; 3-50 characters"|_}</div>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2"><input type="submit" name="submitButton" value="{"save"|_}"></td>
-    </tr>
-  </table>
-</form>
+{extends file="layout.tpl"}
 
 {if $identities}
   <h3>{"OpenID identities"|_}</h3>
 
-  <ul>
-    {foreach from=$identities item=i}
-      <li>{$i->openId}</li>
-    {/foreach}
-  </ul>
+{block name=content}
+<div class="container">
+  <h1 class="page-header">{"My account"|_}</h1>
+  <div class="row">
+    <div class="col-md-5 col-sm-6 col-xs-12">
+      <form action="../editAvatar" method="post" enctype="multipart/form-data">
+      {include file="bits/avatar.tpl" user=$editUser}<br>
+      <label for="avatarFileName">Fișier:</label>
+      <input id="avatarFileName" type="file" name="avatarFileName"><br>
+      <input id="avatarSubmit" type="submit" name="submit" value="Editează" disabled="disabled">
+      <a href="../saveAvatar?delete=1" onclick="return confirm('{"Confirm image deletion?"|_}');">{"Delete image"|_}</a>
+      <br><br>
+    </form>
+    </div>
+    <div class="col-md-7 col-sm-6 col-xs-12 personal-info">
+      <form class="form-horizontal" role="form">
+        <div class="form-group">
+          <label class="col-lg-3 control-label">{"Name"|_}:</label>
+          <div class="col-lg-8">
+            <input class="form-control" name="name" value={$editUser->name} type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-lg-3 control-label">{"Email"|_}:</label>
+          <div class="col-lg-8">
+            <input class="form-control" name="email" value={$editUser->email} type="text">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label">{"New password"|_}:</label>
+          <div class="col-md-8">
+            <input class="form-control" name="newpassword" type="password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label">{"Confirm password"|_}:</label>
+          <div class="col-md-8">
+            <input class="form-control" name="newpassword2" type="password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label">{"Enter current password"|_}:</label>
+          <div class="col-md-8">
+            <input class="form-control" name="password" type="password">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label"></label>
+          <div class="col-md-8">
+            <input class="btn btn-primary" name="submitButton" value="Save Changes" type="submit">
+            <span></span>
+            <input class="btn btn-default" value="Cancel" type="reset">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+   $('#avatarFileName').change(function() {
+       var error = '';
+       var allowedTypes = ['image/gif', 'image/jpeg', 'image/png'];
+       if (this.files[0].size > (1 << 21)) {
+           error = '{"Maximum dimension is 2MB."|_}.';
+       } else if (allowedTypes.indexOf(this.files[0].type) == -1) {
+           error = '{"Only jpeg,png or gif images are allowed."|_}.';
+       }
+       if (error) {
+           $('#avatarFileName').val('');
+           $('#avatarSubmit').attr('disabled', 'disabled');
+           alert(error);
+       } else {
+           $('#avatarSubmit').removeAttr('disabled');
+       }
+       return false;
+   });
+  </script>
+{/block}
 
-  <a href="login">{"link another OpenID to this account"|_}</a>
-{/if}
