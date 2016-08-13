@@ -49,7 +49,7 @@
     <input type="hidden" name="y0" value=""/>
     <input type="hidden" name="side" value=""/>
     <input type="submit" name="submit" value="{"Save"|_}"/>
-    <a href="preferinte">{"Quit"|_}</a>
+    <a href="auth/account">{"Quit"|_}</a>
   </form>
 </body>
 
